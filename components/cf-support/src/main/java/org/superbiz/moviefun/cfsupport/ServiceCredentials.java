@@ -1,11 +1,14 @@
-package org.superbiz.moviefun;
+package org.superbiz.moviefun.cfsupport;
+
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Objects;
 
+@Component
 public class ServiceCredentials {
 
     private final String vcapServices;

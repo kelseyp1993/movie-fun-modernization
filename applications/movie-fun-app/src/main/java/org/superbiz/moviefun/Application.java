@@ -8,11 +8,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 import org.superbiz.moviefun.blobstore.BlobStore;
 import org.superbiz.moviefun.blobstore.S3Store;
-import org.superbiz.moviefun.movies.MovieServlet;
+import org.superbiz.moviefun.cfsupport.ServiceCredentials;
+import org.superbiz.moviefun.moviesapi.AlbumsClient;
+import org.superbiz.moviefun.moviesapi.MovieServlet;
 
 @SpringBootApplication
+@ComponentScan("org.superbiz")
 public class Application {
 
     public static void main(String... args) {
@@ -25,14 +31,20 @@ public class Application {
     }
 
     @Bean
+    public AlbumsClient albumsClient(@Value("${albums.url}") String albumsUrl) {
+        RestOperations restOperations = new RestTemplate();
+        return new AlbumsClient(albumsUrl, restOperations);
+    }
+
+    @Bean
     ServiceCredentials serviceCredentials(@Value("${vcap.services}") String vcapServices) {
         return new ServiceCredentials(vcapServices);
     }
 
     @Bean
     public BlobStore blobStore(
-        ServiceCredentials serviceCredentials,
-        @Value("${vcap.services.photo-storage.credentials.endpoint:#{null}}") String endpoint
+            ServiceCredentials serviceCredentials,
+            @Value("${vcap.services.photo-storage.credentials.endpoint:#{null}}") String endpoint
     ) {
         String photoStorageAccessKeyId = serviceCredentials.getCredential("photo-storage", "user-provided", "access_key_id");
         String photoStorageSecretKey = serviceCredentials.getCredential("photo-storage", "user-provided", "secret_access_key");
