@@ -38,7 +38,7 @@ public class AlbumsRepository {
         return entityManager.find(Album.class, id);
     }
 
-    public List<Album> getAlbums() {
+    public List<Album> findAlbums() {
         CriteriaQuery<Album> cq = entityManager.getCriteriaBuilder().createQuery(Album.class);
         cq.select(cq.from(Album.class));
         return entityManager.createQuery(cq).getResultList();
