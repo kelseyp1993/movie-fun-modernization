@@ -53,7 +53,7 @@ class Album : Serializable {
     fun isEquivalent(other: Album): Boolean {
         if (year != other.year) return false
         if (!isEqual(title, other.title)) return false
-        return if (!isEqual(artist, other.artist)) false else true
+        return isEqual(artist, other.artist)
 
     }
 
@@ -62,6 +62,6 @@ class Album : Serializable {
         const val serialVersionUID = 1L
 
         private fun <T> isEqual(one: T?, other: T?): Boolean =
-                if (if (one != null) one != other else other != null) false else true
+                !if (one != null) one != other else other != null
     }
 }

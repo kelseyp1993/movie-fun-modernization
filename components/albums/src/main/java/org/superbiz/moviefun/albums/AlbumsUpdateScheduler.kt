@@ -13,12 +13,8 @@ import javax.sql.DataSource
 @EnableScheduling
 class AlbumsUpdateScheduler(dataSource: DataSource, private val albumsUpdater: AlbumsUpdater) {
 
-    private val jdbcTemplate: JdbcTemplate
+    private val jdbcTemplate: JdbcTemplate = JdbcTemplate(dataSource)
     private val logger = LoggerFactory.getLogger(javaClass)
-
-    init {
-        jdbcTemplate = JdbcTemplate(dataSource)
-    }
 
 
     @Scheduled(initialDelay = 5 * SECONDS, fixedRate = 15 * SECONDS)
