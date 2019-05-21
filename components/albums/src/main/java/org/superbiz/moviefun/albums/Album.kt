@@ -19,11 +19,11 @@ package org.superbiz.moviefun.albums
  * limitations under the License.
  */
 
+import java.io.Serializable
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-import java.io.Serializable
 
 @Entity
 class Album : Serializable {

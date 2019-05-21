@@ -57,11 +57,12 @@ class AlbumsUpdater(private val blobStore: BlobStore, private val albumsReposito
         val albumsToDelete = albumsWeHave
                 .filter { album -> albumsToHave.none { album.isEquivalent(it) } }
 
-        albumsToDelete.forEach { albumsRepository.deleteAlbum(it) } }
+        albumsToDelete.forEach { albumsRepository.deleteAlbum(it) }
+    }
 
     private fun updateExistingAlbums(albumsToHave: List<Album>, albumsWeHave: List<Album>) {
         val albumsToUpdate = albumsToHave
-                .map{ album -> addIdToAlbumIfExists(albumsWeHave, album) }
+                .map { album -> addIdToAlbumIfExists(albumsWeHave, album) }
                 .filter { it.hasId() }
 
         albumsToUpdate.forEach { albumsRepository.updateAlbum(it) }
